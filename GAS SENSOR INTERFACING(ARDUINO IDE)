@@ -1,0 +1,33 @@
+// MQ-3 Alcohol Detection with ESP32 & Buzzer 
+const int mq3Pin = 34;   // Analog pin connected to MQ-3 A0 
+const int buzzerPin = 25; // Buzzer pin 
+ 
+// Set a threshold for alcohol detection (tune experimentally) 
+int threshold = 1500;  // ADC value (0–4095 on ESP32) 
+ 
+void setup() { 
+  Serial.begin(115200); 
+  pinMode(buzzerPin, OUTPUT); 
+  digitalWrite(buzzerPin, LOW); 
+} 
+ 
+void loop() { 
+  int sensorValue = analogRead(mq3Pin); // Read analog value 
+  Serial.print("MQ-3 Value: "); 
+  Serial.println(sensorValue); 
+ 
+  if (sensorValue > threshold) { 
+    Serial.println("
+🚨
+ Alcohol detected! Turning buzzer ON..."); 
+    digitalWrite(buzzerPin, HIGH);  // Buzzer ON 
+  } else { 
+    Serial.println("
+✅
+ No alcohol detected."); 
+    digitalWrite(buzzerPin, LOW);   // Buzzer OFF 
+  } 
+ 
+  delay(1000); // 1 second delay  
+ 
+} 
